@@ -1,30 +1,33 @@
 const express = require('express');
-const next = require('next');
 const path = require('path');
-const { fileURLToPath } = require('url');
 
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
-//const __filename = fileURLToPath(require('url').pathToFileURL(__filename));
-//const __dirname = path.dirname(__filename);
+const dotenv = require('dotenv');
 
-app.prepare().then(() => {
-  const server = express();
+// Load environment variables from .env file
+dotenv.config();
 
-  server.set('views', path.join(__dirname, 'src/views'));
-  server.set('view engine', 'pug');
+const db = require('./services/db');
+const app = express();
 
-  server.get('/', (req, res) => {
-    res.render('index');
-  });
+// Set view engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
-  server.get('*', (req, res) => {
-    return handle(req, res);
-  });
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-  server.listen(3000, (err) => {
-    if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
-  });
+// Make the database connection available globally
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
+
+// Routes
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

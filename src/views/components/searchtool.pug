@@ -1,0 +1,51 @@
+section
+    div(class="main-container")
+        div(class="tab-container")
+            div(class="tabs")
+                button(class="tab-button active", data-tab="tab1") Country
+                button(class="tab-button", data-tab="tab2") City
+                button(class="tab-button", data-tab="tab3") Capital City
+                button(class="tab-button", data-tab="tab4") Population
+            div(class="tab-content")
+                div(class="tab-pane active", id="tab1")
+                    form(action='/country-response' method='POST' class="form")
+                        div(class="form__div")
+                            input(type="text" class="form__input" placeholder=" " list="countries" name="countryCountryInput" id="countryTextbox")
+                            label(for="countryTextbox" class="form__label") Country
+                        div(class="form__div")
+                            input(type="text" class="form__input" placeholder=" " list="continents" name="continentCountryInput" id="continentTextbox")
+                            label(for="continentTextbox" class="form__label") Continent
+                        div(class="form__div")
+                            input(type="text" class="form__input" placeholder=" " list="regions" name="regionCountryInput" id="regionTextbox")
+                            label(for="regionTextbox" class="form__label") Region
+                        div(class="form__div")
+                            input(type="text" class="form__input" placeholder=" " name="rankCountryInput" id="rankTextbox" min="1" value="1")
+                            label(for="" class="form__label") Top N 
+
+                        button(class="cool-button") Generate
+
+        div(class="table-box")
+            // The Country Report Table
+            div(class="countryTable")
+                table(class="sticky tableSortable" id="countryTable")
+                    thead
+                        tr
+                            th Code
+                            th Country
+                            th Continent
+                            th Region
+                            th(id="popHeader") Population
+                                div(class="countryToggle" id="caretDown")
+                                    i(class="fa fa-caret-down" aria-hidden="true" id="icon")
+                            th Capital
+                    //tbody
+                        tr(id="tableData")
+                            td Example Code
+                            td Example Country
+                            td Example Continent 
+                            td Example Region
+                            td Example Population
+                            td Example Capital
+                        
+
+script(src="/js/tabs.js")

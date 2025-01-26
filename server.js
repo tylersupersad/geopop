@@ -3,27 +3,27 @@ const path = require('path');
 
 const dotenv = require('dotenv');
 
-// Load environment variables from .env file
+// load environment variables from .env file
 dotenv.config();
 
-const db = require('./services/db');
+const db = require('./src/services/db');
 const app = express();
 
-// Set view engine
+// set view engine
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src/views'));
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
+// static files
+app.use(express.static(path.join(__dirname, 'src/public')));
 
-// Make the database connection available globally
+// make the database connection available globally
 app.use((req, res, next) => {
   req.db = db;
   next();
 });
 
-// Routes
-const indexRouter = require('./routes/index');
+// routes
+const indexRouter = require('./src/routes/index'); 
 app.use('/', indexRouter);
 
 // Start server
